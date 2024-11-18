@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="Image quality enhancement tool" />
+    <meta name="author" content="" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <title>PhotoEnhance - Image Quality Enhancement</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="assets/css/fontawesome.css" />
+    <link rel="stylesheet" href="assets/css/templatemo-digimedia-v3.css" />
+    <link rel="stylesheet" href="assets/css/animated.css" />
+    <link rel="stylesheet" href="assets/css/owl.css" />
+  </head>
+
+  <body>
+    <!-- ***** Header Area Start ***** -->
+    <header
+      class="header-area header-sticky wow slideInDown"
+      data-wow-duration="0.75s"
+      data-wow-delay="0s"
+    >
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <nav class="main-nav">
+              <a href="index.html" class="logo">
+                <img src="assets/my-images/logo.png" alt="" />
+              </a>
+              <ul class="nav">
+                <li class="scroll-to-section">
+                  <a href="index.html" class="active">Home</a>
+                </li>
+                <li class="scroll-to-section">
+                  <a href="index.html">About</a>
+                </li>
+                <li class="scroll-to-section">
+                  <a href="index.html">Contact</a>
+                </li>
+                <li class="scroll-to-section">
+                  <div class="border-first-button">
+                    <a href="{{ url_for('index') }}"
+                      ><i class="fa-solid fa-arrow-left"></i> Back</a
+                    >
+                  </div>
+                </li>
+              </ul>
+              <a class="menu-trigger">
+                <span>Menu</span>
+              </a>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- ***** Header Area End ***** -->
+
+    <!-- ***** Main Banner Start ***** -->
+    <div class="main-banner" id="top">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 align-self-center justify-content-end">
+            <div class="left-content show-up header-text wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">
+            <h2 class="text-primary justify-content-end">Enhance Your Images</h2>
+            <p>Upload your image and improve its quality effortlessly!</p>
+            <div class="mb-3 d-flex justify-content-end">
+              <label for="uploadImage" class="form-label fs-5 me-3">Select an image:</label>
+              <input
+                class="form-control form-control-lg"
+                type="file"
+                id="uploadImage"
+                accept="image/*"
+                onchange="previewImage(event)"
+                style="width: 60%; max-width: 400px;"
+              />
+            </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="right-image">
+              <img
+                id="originalImage"
+                src="assets/my-images/default.png"
+                alt="Original Image"
+                class="img-fluid"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ***** Main Banner End ***** -->
+
+    <!-- ***** Image Processing Section ***** -->
+    <div class="container my-5" id="imageProcessingSection">
+      <div class="row">
+        <!-- Image Originale -->
+        <div class="col-lg-5 text-center">
+          <h4>Original Image</h4>
+          <img
+            id="originalPreview"
+            src=""
+            alt="Original Image"
+            class="img-fluid rounded shadow mb-3"
+          />
+          <button class="btn btn-primary" onclick="enhanceImage()">
+            Enhance Quality
+          </button>
+        </div>
+
+        <!-- Nouvelle Image -->
+        <div
+          id="enhancedSection"
+          class="col-lg-5 text-center"
+          style="display: none"
+        >
+          <h4>Enhanced Image</h4>
+          <img
+            id="enhancedImage"
+            src=""
+            alt="Enhanced Image"
+            class="img-fluid rounded shadow mb-3"
+          />
+          <a
+            id="downloadButton"
+            href="#"
+            class="btn btn-success"
+            download="enhanced-image.png"
+            >Download</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+      function previewImage(event) {
+        const originalPreview = document.getElementById("originalPreview");
+        const imageProcessingSection = document.getElementById(
+          "imageProcessingSection"
+        );
+
+        originalPreview.src = URL.createObjectURL(event.target.files[0]);
+
+        // Scroll to the Image Processing Section
+        imageProcessingSection.scrollIntoView({ behavior: "smooth" });
+      }
+
+      function enhanceImage() {
+    const fileInput = document.getElementById("uploadImage");
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert("Please select an image!");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    fetch("/upload", {
+        method: "POST",
+        body: formData,
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.enhanced_image_url) {
+                const enhancedSection = document.getElementById("enhancedSection");
+                const enhancedImage = document.getElementById("enhancedImage");
+                const downloadButton = document.getElementById("downloadButton");
+
+                enhancedImage.src = data.enhanced_image_url;
+                downloadButton.href = data.enhanced_image_url;
+
+                enhancedSection.style.display = "block";
+            } else {
+                alert("Error enhancing the image.");
+            }
+        })
+        .catch((error) => console.error("Error:", error));
+}
+
+    </script>
+  </body>
+</html>
