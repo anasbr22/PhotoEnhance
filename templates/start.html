@@ -2,10 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Image quality enhancement tool" />
     <meta name="author" content="" />
     <link
@@ -30,13 +27,90 @@
     <link rel="stylesheet" href="assets/css/owl.css" />
   </head>
 
+  <style>/* Amélioration du label */
+   /* Container */
+.range-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Label */
+.range-label {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #333;
+  margin-right: 1rem;
+  transition: color 0.3s ease;
+}
+
+.range-label:hover {
+  color: #0056b3;
+}
+
+/* Input range */
+.range-input {
+  width: 80%;
+  max-width: 400px;
+  border-radius: 8px;
+  height: 8px;
+  background-color: #f8f9fa;
+  border: 2px solid #ccc;
+  appearance: none;
+  transition: all 0.3s ease;
+}
+
+.range-input:focus {
+  border-color: #0056b3;
+  box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
+  outline: none;
+}
+
+.range-input:hover {
+  background-color: #e9ecef;
+}
+
+/* Thumb */
+.range-input::-webkit-slider-thumb {
+  width: 20px;
+  height: 20px;
+  background-color: #0056b3;
+  border-radius: 50%;
+  border: 2px solid #0056b3;
+  appearance: none;
+  transition: background-color 0.3s ease;
+}
+
+.range-input::-webkit-slider-thumb:hover {
+  background-color: #004085;
+}
+
+/* Value display */
+.range-value {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-left: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .range-input {
+    width: 100%;
+  }
+
+  .range-label {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+    </style>
+
   <body>
     <!-- ***** Header Area Start ***** -->
-    <header
-      class="header-area header-sticky wow slideInDown"
-      data-wow-duration="0.75s"
-      data-wow-delay="0s"
-    >
+    <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
       <div class="container">
         <div class="row">
           <div class="col-12">
@@ -45,26 +119,16 @@
                 <img src="assets/my-images/logo.png" alt="" />
               </a>
               <ul class="nav">
-                <li class="scroll-to-section">
-                  <a href="index.html" class="active">Home</a>
-                </li>
-                <li class="scroll-to-section">
-                  <a href="index.html">About</a>
-                </li>
-                <li class="scroll-to-section">
-                  <a href="index.html">Contact</a>
-                </li>
+                <li class="scroll-to-section"><a href="{{ url_for('index') }}" class="active">Home</a></li>
+                <li class="scroll-to-section"><a href="{{ url_for('index') }}">About</a></li>
+                <li class="scroll-to-section"><a href="{{ url_for('index') }}">Contact</a></li>
                 <li class="scroll-to-section">
                   <div class="border-first-button">
-                    <a href="{{ url_for('index') }}"
-                      ><i class="fa-solid fa-arrow-left"></i> Back</a
-                    >
+                    <a href="{{ url_for('index') }}"><i class="fa-solid fa-arrow-left"></i> Back</a>
                   </div>
                 </li>
               </ul>
-              <a class="menu-trigger">
-                <span>Menu</span>
-              </a>
+              <a class="menu-trigger"><span>Menu</span></a>
             </nav>
           </div>
         </div>
@@ -78,19 +142,20 @@
         <div class="row">
           <div class="col-lg-6 align-self-center justify-content-end">
             <div class="left-content show-up header-text wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">
-            <h2 class="text-primary justify-content-end">Enhance Your Images</h2>
-            <p>Upload your image and improve its quality effortlessly!</p>
-            <div class="mb-3 d-flex justify-content-end">
-              <label for="uploadImage" class="form-label fs-5 me-3">Select an image:</label>
-              <input
-                class="form-control form-control-lg"
-                type="file"
-                id="uploadImage"
-                accept="image/*"
-                onchange="previewImage(event)"
-                style="width: 60%; max-width: 400px;"
-              />
-            </div>
+              <h2 class="text-primary justify-content-end">Enhance Your Images</h2>
+              <p>Upload your image and improve its quality effortlessly!</p>
+              <div class="mb-3 d-flex justify-content-end">
+                <label for="uploadImage" class="form-label fs-5 me-3">Select an image:</label>
+                <input
+                  class="form-control form-control-lg"
+                  type="file"
+                  id="uploadImage"
+                  accept="image/*"
+                  onchange="previewImage(event)"
+                  style="width: 60%; max-width: 400px;"
+                  
+                />
+              </div>
             </div>
           </div>
           <div class="col-lg-6">
@@ -100,6 +165,7 @@
                 src="assets/my-images/default.png"
                 alt="Original Image"
                 class="img-fluid"
+               
               />
             </div>
           </div>
@@ -108,95 +174,147 @@
     </div>
     <!-- ***** Main Banner End ***** -->
 
-    <!-- ***** Image Processing Section ***** -->
-    <div class="container my-5" id="imageProcessingSection">
-      <div class="row">
-        <!-- Image Originale -->
-        <div class="col-lg-5 text-center">
-          <h4>Original Image</h4>
-          <img
-            id="originalPreview"
-            src=""
-            alt="Original Image"
-            class="img-fluid rounded shadow mb-3"
-          />
-          <button class="btn btn-primary" onclick="enhanceImage()">
-            Enhance Quality
-          </button>
-        </div>
+   <!-- Image Processing Section -->
+<div class="container my-5" id="imageProcessingSection">
+  <div class="row">
+    <!-- Image Originale -->
+    <div class="col-lg-6 text-center">
+      <h4 class="display-4">Original Image</h4>
+      <img
+        id="originalPreview"
+        src=""
+        alt="Original Image"
+        class="img-fluid rounded shadow-lg mb-3"
+        style="display: none; max-height: 400px; object-fit: contain;"
+      />
+      <button
+        class="btn btn-primary btn-lg px-4 py-2"
+        onclick="enhanceImage()"
+        id="enhanceButton"
+        disabled
+      >
+        Enhance Quality
+      </button>
 
-        <!-- Nouvelle Image -->
-        <div
-          id="enhancedSection"
-          class="col-lg-5 text-center"
-          style="display: none"
-        >
-          <h4>Enhanced Image</h4>
-          <img
-            id="enhancedImage"
-            src=""
-            alt="Enhanced Image"
-            class="img-fluid rounded shadow mb-3"
-          />
-          <a
-            id="downloadButton"
-            href="#"
-            class="btn btn-success"
-            download="enhanced-image.png"
-            >Download</a
-          >
-        </div>
+      <div class="range-container">
+        <label for="enhanceTimes" class="range-label">Enhance times:</label>
+        <input
+          id="enhanceTimes"
+          type="range"
+          min="1"
+          max="10"
+          value="1"
+          step="1"
+          class="range-input"
+          oninput="updateRangeValue(this.value)"
+        />
+        <span id="rangeValue" class="range-value">1</span>
       </div>
+      
+      <script>
+        function updateRangeValue(value) {
+          document.getElementById('rangeValue').textContent = value;
+        }
+      </script>
+      
+      
     </div>
 
-    <!-- Scripts -->
+    <!-- Nouvelle Image -->
+    <div id="enhancedSection" class="col-lg-6 text-center" style="display: none;">
+      <h4 class="display-4">Enhanced Image</h4>
+      <img
+        id="enhancedImage"
+        src=""
+        alt="Enhanced Image"
+        class="img-fluid rounded shadow-lg mb-3"
+        style="max-height: 400px; object-fit: contain;"
+      />
+      <a
+        id="downloadButton"
+        href="#"
+        class="btn btn-success btn-lg px-4 py-2"
+        download="enhanced-image.png"
+      >
+        Download Enhanced Image
+      </a>
+    </div>
+  </div>
+</div>
+
+
     <script>
       function previewImage(event) {
         const originalPreview = document.getElementById("originalPreview");
-        const imageProcessingSection = document.getElementById(
-          "imageProcessingSection"
-        );
+        const enhancedSection = document.getElementById("enhancedSection");
+        const enhanceButton = document.getElementById("enhanceButton");
+        const imageProcessingSection = document.getElementById("imageProcessingSection");
 
-        originalPreview.src = URL.createObjectURL(event.target.files[0]);
+        // Masquer les sections existantes
+        originalPreview.style.display = "none";
+        enhancedSection.style.display = "none";
 
-        // Scroll to the Image Processing Section
-        imageProcessingSection.scrollIntoView({ behavior: "smooth" });
+        // Réinitialiser les images
+        originalPreview.src = "";
+        document.getElementById("enhancedImage").src = "";
+
+        // Vérifier si un fichier a été sélectionné
+        const file = event.target.files[0];
+        if (file) {
+          originalPreview.src = URL.createObjectURL(file);
+          originalPreview.style.display = "block";
+          enhanceButton.disabled = false;
+          
+          window.scrollTo({
+            top: imageProcessingSection.offsetTop ,
+            behavior: 'smooth',
+          });
+        } else {
+          enhanceButton.disabled = true;
+        }
       }
 
       function enhanceImage() {
-    const fileInput = document.getElementById("uploadImage");
-    const file = fileInput.files[0];
+        const fileInput = document.getElementById("uploadImage");
+        const file = fileInput.files[0];
+        const enhanceTimes = document.getElementById("enhanceTimes").value;
 
-    if (!file) {
-        alert("Please select an image!");
-        return;
-    }
+        if (!file) {
+          alert("Please select an image!");
+          return;
+        }
 
-    const formData = new FormData();
-    formData.append("image", file);
+        const formData = new FormData();
+        formData.append("image", file);
+        formData.append("enhance_times", enhanceTimes);
 
-    fetch("/upload", {
-        method: "POST",
-        body: formData,
-    })
+        fetch("/upload", {
+          method: "POST",
+          body: formData,
+        })
         .then((response) => response.json())
         .then((data) => {
-            if (data.enhanced_image_url) {
-                const enhancedSection = document.getElementById("enhancedSection");
-                const enhancedImage = document.getElementById("enhancedImage");
-                const downloadButton = document.getElementById("downloadButton");
+          if (data.enhanced_image_url) {
+            const enhancedSection = document.getElementById("enhancedSection");
+            const enhancedImage = document.getElementById("enhancedImage");
+            const downloadButton = document.getElementById("downloadButton");
 
-                enhancedImage.src = data.enhanced_image_url;
-                downloadButton.href = data.enhanced_image_url;
+            // Ajouter un timestamp pour éviter le cache du navigateur
+            const enhancedImageUrl = data.enhanced_image_url + "?t=" + new Date().getTime();
 
-                enhancedSection.style.display = "block";
-            } else {
-                alert("Error enhancing the image.");
-            }
+            enhancedImage.src = enhancedImageUrl;
+            downloadButton.href = enhancedImageUrl;
+
+            // Afficher la section de l'image améliorée
+            enhancedSection.style.display = "block";
+          } else {
+            alert("Error enhancing the image.");
+          }
         })
-        .catch((error) => console.error("Error:", error));
-}
-
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+      }
     </script>
   </body>
 </html>
