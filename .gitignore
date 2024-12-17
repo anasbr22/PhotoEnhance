@@ -10,3 +10,7 @@
 *.mat
 *.npy
 
+.gitignore
+
+temp_enhanced/*
+temp_uploads/*

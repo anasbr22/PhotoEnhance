@@ -106,6 +106,23 @@
   }
 }
 
+#loader {
+  width: 80px;
+  height: 80px;
+  border: 8px solid #f3f3f3;
+  left: 1100px;
+  top: 1200px;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+  position: absolute; 
+  transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
     </style>
 
   <body>
@@ -220,7 +237,9 @@
       
     </div>
 
+    
     <!-- Nouvelle Image -->
+    <div id="loader" class="col-lg-6 text-center" style="display: none;"></div>
     <div id="enhancedSection" class="col-lg-6 text-center" style="display: none;">
       <h4 class="display-4">Enhanced Image</h4>
       <img
@@ -278,7 +297,7 @@
         const fileInput = document.getElementById("uploadImage");
         const file = fileInput.files[0];
         const enhanceTimes = document.getElementById("enhanceTimes").value;
-
+        document.getElementById("loader").style.display = "block"
         if (!file) {
           alert("Please select an image!");
           return;
@@ -306,9 +325,10 @@
             downloadButton.href = enhancedImageUrl;
 
             // Afficher la section de l'image améliorée
+            document.getElementById("loader").style.display = "none";
             enhancedSection.style.display = "block";
           } else {
-            alert("Error enhancing the image.");
+            throw "Error enhancing the image.";
           }
         })
         .catch((error) => {

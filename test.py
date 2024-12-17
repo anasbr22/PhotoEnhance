@@ -6,7 +6,7 @@ import numpy as np
 import RRDBNet_arch as arch
 
 # Load the model
-model_path = 'models/RRDB_ESRGAN_x4.pth'
+model_path = 'models/ESRGAN_x4.pth'
 device = torch.device('cpu')
 model = arch.RRDBNet(3, 3, 64, 23, gc=32)
 model.load_state_dict(torch.load(model_path, map_location=device), strict=True)
