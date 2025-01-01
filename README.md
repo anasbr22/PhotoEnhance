@@ -5,7 +5,7 @@ Ce projet permet d'améliorer la qualité des images téléchargées en utilisan
 ## Fonctionnalités
 
 - **Téléchargement d'image** : L'utilisateur peut télécharger une image depuis son appareil.
-- **Amélioration de la qualité de l'image** : Après téléchargement, l'image est traitée et améliorée.
+- **Amélioration de la qualité de l'image** : Après téléchargement, l'image est traitée et améliorée en utilisant le modèle ESRGAN.
 - **Téléchargement de l'image améliorée** : L'utilisateur peut télécharger l'image améliorée.
 
 ## Prérequis
@@ -13,24 +13,23 @@ Ce projet permet d'améliorer la qualité des images téléchargées en utilisan
 - Python 3.7 ou supérieur
 - Flask
 - Pillow (bibliothèque de traitement d'image)
+- PyTorch
 
 ## Installation
 
 1. Clonez ce dépôt sur votre machine locale :
-    ```bash
-    git clone https://votre-url-depot.git
-    ```
+   
 
 2. Accédez au dossier du projet :
     ```bash
     cd photoenhance
     ```
 
-
 3. Installez les dépendances :
     ```bash
     pip install -r requirements.txt
     ```
+4. Vous pouvez tester l'application avec les images du dossier ImageToTest car ces images ne sont pas trop volumineuses.
 
 ## Lancer l'application
 
@@ -38,3 +37,28 @@ Pour démarrer l'application Flask en mode développement, exécutez la commande
 
 ```bash
 python app.py
+```
+
+
+*
+*
+*
+
+*
+*
+*
+*
+*
+
+
+
+
+## Voici quelques captures d'écran de l'application :
+
+## Page d'accueil
+![Page d'accueil](capture/im2.png)
+
+
+
+## Image améliorée
+![Image améliorée](capture/im1.png)
