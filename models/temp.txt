@@ -1,0 +1,2 @@
+Téléchargez le modèle et placez-le dans ce dossier
+lien : https://huggingface.co/databuzzword/esrgan/blob/main/RRDB_ESRGAN_x4.pth
